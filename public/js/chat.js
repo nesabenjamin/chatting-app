@@ -35,7 +35,6 @@ $messageForm.addEventListener('submit', (e)=>{
 const autoscroll = ()=>{
     //New message element
     const $newMessage = $messages.lastElementChild
-    //console.log($newMessage.offsetHeight)
     //Height of the new message
     const newMessageStyles = getComputedStyle($newMessage)
     const newMesssageMargin = parseInt(newMessageStyles.marginBottom)
@@ -57,15 +56,9 @@ const autoscroll = ()=>{
         $messages.scrollTop = $messages.scrollHeight
     }
 
-    //console.log(newMessageStyles)
 }
 
 socket.on('iomessage',(message)=>{
-    
-    // const html = Mustache.render($messageTemplate, {
-    //     message
-    // })
-
     const html = Mustache.render($messageTemplate, {
         username:message.username,
         message:message.text,
