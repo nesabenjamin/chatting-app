@@ -16,13 +16,10 @@ const publicDirectoryPath = path.join(__dirname, "../public")
 
 app.use( express.static(publicDirectoryPath) )
 
-// let count = 0
-
 io.on('connection', (socket)=>{
 
    
     socket.on('join', ( obj, callback ) =>{
-        //console.log(obj)
         const  {error, user} = addUser( { id: socket.id, ...obj})
         if(error){
             return callback(error)
@@ -39,13 +36,11 @@ io.on('connection', (socket)=>{
 
         callback()
     
-        //socket.emit io.emit socket.broadcast.emit
-
+       
     })
 
     socket.on('sendMessage', (msg, callback)=>{
         const user = getUser(socket.id)
-        //console.log('se', user)
         const filter = new Filter()
         if( filter.isProfane(msg) ){
             return callback('Profanity is not allowed!')
@@ -69,7 +64,6 @@ io.on('connection', (socket)=>{
 
     socket.on('disconnect', ()=>{
         const user = removeUser(socket.id)
-        //console.log(user)
         if(user){
             io.to(user.room).emit('iomessage',generateMessage('Admin', `${user.username} has left`))
             io.to(user.room).emit('roomData', {
